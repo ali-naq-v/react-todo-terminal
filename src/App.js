@@ -5,8 +5,23 @@ import './App.css';
 
 function App() {
   return (
+    <React.Fragment>
+  <ToDoContainer/>
+    </React.Fragment>
+  )
+}
+
+function ToDoContainer() {
+
+
+
+  const enterKeyStuff = (e) => {
+    e.preventDefault();
+    console.log("hey i hit enter!!!!")
+  }
+  return (
     <div className="App">
-     <form className="center" >
+     <form className="center" onSubmit={enterKeyStuff} >
     
   <ToDoItem/>
      
@@ -16,45 +31,73 @@ function App() {
 }
 
 
-
-function CheckBox({onUpdate, checkStatus}) {
+function CheckBox({onUpdate, checkStatus, hidden}) {
+  
   return (
-    <input type="checkbox" onChange={onUpdate} checked={checkStatus}/> 
+    <input type="checkbox" onChange={onUpdate} checked={checkStatus} hidden={hidden}/> 
   )
 }
 
 function ToDoItem() {
-  const [Checked, ToggleCheck] = useState(false)
+  const [hiddenCheckBox, toggleHidingCheckBox] = useState(true)
+  const [checked, toggleCheck] = useState(false)
 
-  const ToggleCheckItem = () => {
-    Checked ? ToggleCheck(false): ToggleCheck(true)
-
+  const toggleCheckItem = () => {
+    checked ? toggleCheck(false): toggleCheck(true)
   }
+
+  const onUserInput = (values) => {
+    if (values.length > 0) {
+      toggleHidingCheckBox(false)
+    } 
+    else {
+      toggleCheck(false)
+      toggleHidingCheckBox(true)
+    }
+  }
+
+
+
   return ( 
          <React.Fragment>
-           <CheckBox onUpdate={ToggleCheckItem} checkStatus={Checked}/>
-           <UserInput done={Checked}/>
+           <CheckBox onUpdate={toggleCheckItem} checkStatus={checked} hidden={hiddenCheckBox} />
+           <UserInput onUpdate={onUserInput} checkStatus={checked}/>
          </React.Fragment>
   )
 }
 
-function UserInput({done}) {
+function UserInput({onUpdate, checkStatus}) {
+
+
+  const [inputValue, setInputValue] = useState('')
+
+  const updateInput = (e) => {
+    onUpdate(e.target.value)
+    setInputValue(e.target.value)
+    
+  }
+
+
   const strikeThrough = {
     textDecoration: 'line-through'
   };
   return (
     <React.Fragment>
-      {done ? 
+      {checkStatus ? 
     <input 
     type="text"
     placeholder="Enter item"
     autoComplete="off"
     style={strikeThrough}
+    onChange={updateInput}
+    value={inputValue}
     />:
     <input 
     type="text"
     placeholder="Enter item"
     autoComplete="off"
+    onChange={updateInput}
+    value={inputValue}
     />
       }
    </React.Fragment>
