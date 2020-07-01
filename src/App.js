@@ -4,116 +4,75 @@ import {useState} from 'react'
 import './App.css';
 
 function App() {
+
+  
+  const initToDoItems = [
+    { content: "stuff",
+    completed: false,
+    hidden: function() {
+      return this.content.length === 0
+    }
+  },
+    { content: "stuff2",
+    completed: false,
+    hidden: function() {
+      return this.content.length === 0
+    }
+  },
+    { content: "",
+    completed: true,
+    hidden: function() {
+      return this.content.length === 0
+    }
+  }
+    ]
+
+  
+
+
+  const [toDoItems, setToDoItems] = useState(initToDoItems)
+
+  const toggleCompleted = (indexToDo) => {
+
+    const _todo = [...toDoItems]
+    
+    if (_todo[indexToDo].completed) {
+      _todo[indexToDo].completed = false
+    }
+    else {
+      _todo[indexToDo].completed = true
+    }
+    
+
+    setToDoItems(_todo)
+
+  }
+
+  const updateToDo = (event, indexToDo)  => {
+
+    const _todo = [...toDoItems]
+    _todo[indexToDo].content = event.target.value
+
+    setToDoItems(_todo)
+
+  }
+
   return (
     <React.Fragment>
-  <ToDoContainer/>
+      <ul className='ToDoContainer'>
+      {toDoItems.map((todo, index)=> {
+        return (
+        <li key={index}>
+          <input type="checkbox" onChange={(event) => toggleCompleted(index)} checked={todo.completed} hidden={todo.hidden()}/>
+          <input type="text" onChange={(event) => updateToDo(event, index) } value={todo.content}/>
+        </li>
+      )
+      })}
+
+      </ul>
+  
     </React.Fragment>
   )
 }
 
-function ToDoContainer() {
-
-
-
-  const enterKeyStuff = (e) => {
-    e.preventDefault();
-    console.log("hey i hit enter!!!!")
-  }
-  return (
-    <div className="App">
-     <form className="center" onSubmit={enterKeyStuff} >
-    
-  <ToDoItem/>
-     
-     </form>
-    </div>
-  );
-}
-
-
-function CheckBox({onUpdate, checkStatus, hidden}) {
-  
-  return (
-    <input type="checkbox" onChange={onUpdate} checked={checkStatus} hidden={hidden}/> 
-  )
-}
-
-function ToDoItem() {
-  const [hiddenCheckBox, toggleHidingCheckBox] = useState(true)
-  const [checked, toggleCheck] = useState(false)
-
-  const toggleCheckItem = () => {
-    checked ? toggleCheck(false): toggleCheck(true)
-  }
-
-  const onUserInput = (values) => {
-    if (values.length > 0) {
-      toggleHidingCheckBox(false)
-    } 
-    else {
-      toggleCheck(false)
-      toggleHidingCheckBox(true)
-    }
-  }
-
-
-
-  return ( 
-         <React.Fragment>
-           <CheckBox onUpdate={toggleCheckItem} checkStatus={checked} hidden={hiddenCheckBox} />
-           <UserInput onUpdate={onUserInput} checkStatus={checked}/>
-         </React.Fragment>
-  )
-}
-
-function UserInput({onUpdate, checkStatus}) {
-
-
-  const [inputValue, setInputValue] = useState('')
-
-  const updateInput = (e) => {
-    onUpdate(e.target.value)
-    setInputValue(e.target.value)
-    
-  }
-
-
-  const strikeThrough = {
-    textDecoration: 'line-through'
-  };
-  return (
-    <React.Fragment>
-      {checkStatus ? 
-    <input 
-    type="text"
-    placeholder="Enter item"
-    autoComplete="off"
-    style={strikeThrough}
-    onChange={updateInput}
-    value={inputValue}
-    />:
-    <input 
-    type="text"
-    placeholder="Enter item"
-    autoComplete="off"
-    onChange={updateInput}
-    value={inputValue}
-    />
-      }
-   </React.Fragment>
-
-  )
-}
-
-
-// function dostuff(e){
-//   //e.preventDefault()
-//   console.log(e.target.value)
-//  // console.log(e.target.value)
-// }
-
-
-// function selected(e){
-//   console.log("one of these is selected!")
-// }
 export default App;
