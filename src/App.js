@@ -59,55 +59,71 @@ function App() {
 
   function upArrowKeyDown(event, indexToDo) {
 
-    if (event.keyCode !== 38) return;
-    
-    if (indexToDo> 0) {
-      setTimeout(() => {
-        refsArray.current[indexToDo-1].focus()
-      }, 0);
-    }
+    if (event.keyCode !== 38) return;    
+    focusOnToDoAboveIndex(indexToDo)
   }
 
+  
   function downArrowKeyDown(event, indexToDo) {
 
-    if (event.keyCode !== 40) return;
-  
-    if (toDoItems.length-1 !== indexToDo) {
-      setTimeout(() => {
-        refsArray.current[indexToDo+1].focus()
-      }, 0);
-    }
+    if (event.keyCode !== 40) return;  
+    focusOnToDoBelowIndex(indexToDo)
   }
+
 
   function backSpaceKeyDown(event, indexToDo) {
 
     if( event.keyCode !== 8) return;
-
     if (toDoItems.length === 1) return;
- 
-    if (toDoItems[indexToDo].content.length===0){
-      const _todo = [...toDoItems]
-      _todo.splice(indexToDo, 1)
-      setTimeout(() => {
-        setToDoItems(_todo)
-        refsArray.current[indexToDo-1].focus()
-      }, 100);
-    }
+    removeToDoAtIndex(indexToDo)
   }
 
   function enterKeyDown(event, indexToDo) {
-    
-    if( event.keyCode !== 13 ) return;
 
-    if (toDoItems[indexToDo].content.length>=0){
-      const _todo = [...toDoItems]
-      _todo.splice(indexToDo+1, 0, new ToDo("", false))
-      
-      setTimeout(() => {
-        setToDoItems(_todo)
-        refsArray.current[indexToDo+1].focus()
-      }, 100);
-    }
+    if( event.keyCode !== 13 ) return;
+    addNewToDoAtIndex(indexToDo);
+  }
+
+  function focusOnToDoAboveIndex(index) {
+
+    if (index === 0 ) return;
+    setTimeout(() => {
+      refsArray.current[index-1].focus()
+    }, 0);
+  }
+
+  function focusOnToDoBelowIndex(index) {
+
+    if (toDoItems.length-1 === index) return ;
+    setTimeout(() => {
+      refsArray.current[index+1].focus()
+    }, 0);
+  }
+
+  function removeToDoAtIndex(index) {
+
+    if (toDoItems[index].content.length>0) return;
+
+    const _todo = [...toDoItems]
+    _todo.splice(index, 1)
+    
+    setTimeout(() => {
+      setToDoItems(_todo)
+      refsArray.current[index-1].focus()
+    }, 100);
+  }
+
+  function addNewToDoAtIndex(index) {
+
+    if (toDoItems[index].content.length===0) return ;
+
+    const _todo = [...toDoItems]
+    _todo.splice(index+1, 0, new ToDo("", false))
+    setTimeout(() => {
+      setToDoItems(_todo)
+      refsArray.current[index+1].focus()
+    }, 100);
+    
   }
 
   return (
