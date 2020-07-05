@@ -49,6 +49,7 @@ function App() {
     else {
       _todo[indexToDo].completed = true
     }
+    localStorage.setItem('toDoItems', JSON.stringify(_todo));
     setToDoItems(_todo)
   }
 
