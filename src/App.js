@@ -89,6 +89,9 @@ function App() {
 
     if( event.keyCode !== 8) return;
     if (toDoItems.length === 1) return;
+    if (toDoItems.length === 0) return;
+    // console.log(toDoItems.length)
+
     removeToDoAtIndex(indexToDo)
   }
 
@@ -99,7 +102,7 @@ function App() {
   }
 
   function focusOnToDoAboveIndex(index) {
-
+    console.log(index)
     if (index === 0 ) return;
     setTimeout(() => {
       refsArray.current[index-1].focus()
@@ -120,9 +123,13 @@ function App() {
 
     const _todo = [...toDoItems]
     _todo.splice(index, 1)
+
+    
     
     setTimeout(() => {
+      localStorage.setItem('toDoItems', JSON.stringify(_todo));
       setToDoItems(_todo)
+      if (index===0) return;
       refsArray.current[index-1].focus()
     }, 100);
   }
@@ -134,7 +141,9 @@ function App() {
     const _todo = [...toDoItems]
     _todo.splice(index+1, 0, new ToDo("", false))
     setTimeout(() => {
+      // localStorage.setItem('toDoItems', JSON.stringify(_todo));
       setToDoItems(_todo)
+      
       refsArray.current[index+1].focus()
     }, 100);
     
@@ -146,12 +155,15 @@ function App() {
       {toDoItems.map((todo, index)=> {
         return (
         <li key={index}>
-          <input type="checkbox" onChange={(event) => toggleCompleted(index)} checked={todo.completed} hidden={todo.empty()}/>
+          {/* <label class="main"> */}
+          <input className="checkbox" type="checkbox" onChange={(event) => toggleCompleted(index)} checked={todo.completed} hidden={todo.empty()}/>
+          <span class="geekmark"></span>          
+          {/* </label> */}
           <input className="inputbox"
           type="text" 
           ref={ref => { refsArray.current[index] = ref; }} 
           style={todo.style()}
-          placeholder="Enter item"
+          // placeholder="Enter item"
           onKeyDown={(event) => keyDown(event, index)} 
           onChange={(event) => updateToDo(event, index) } 
           value={todo.content}/>

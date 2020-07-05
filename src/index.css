@@ -11,21 +11,3 @@ code {
     monospace;
 }
 
-input {
-  color: green;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 4vh;
-
-  background-color: black;
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-
-  /* border-color: black; */
-  
-}
-
-li {
-  outline: none;
-}
