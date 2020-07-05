@@ -23,11 +23,13 @@ class ToDo {
 }
 
 function App() {
-  
+
+  // document.onload = focusFirstInputBox();
   var item1 = new ToDo("", false)
   const initToDoItems = [item1]
   const [toDoItems, setToDoItems] = useState(initToDoItems)
   const refsArray = useRef([])
+  
 
   useEffect(() => {
     
@@ -39,6 +41,13 @@ function App() {
     setToDoItems(existingToDosInit)
 
   },[])
+
+  // function focusFirstInputBox() {
+  //   setTimeout(() => {
+  //     document.getElementsByClassName("inputbox")[0].focus();
+  // }, 500);
+  // }
+  
 
   function toggleCompleted(indexToDo) {
 
@@ -157,7 +166,7 @@ function App() {
         <li key={index}>
           {/* <label class="main"> */}
           <input className="checkbox" type="checkbox" onChange={(event) => toggleCompleted(index)} checked={todo.completed} hidden={todo.empty()}/>
-          <span class="geekmark"></span>          
+          <span className="geekmark"></span>          
           {/* </label> */}
           <input className="inputbox"
           type="text" 

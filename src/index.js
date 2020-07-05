@@ -17,3 +17,13 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+
+
+function focusOnFirstInputBoxOfToDoApp() {
+  setTimeout(() => {
+  console.log(document.getElementsByClassName("inputbox")[0])
+  document.getElementsByClassName("inputbox")[0].focus()
+}, 1000);
+}
+document.onload = focusOnFirstInputBoxOfToDoApp();
