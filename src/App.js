@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import './App.css';
 
 
@@ -29,6 +29,17 @@ function App() {
   const [toDoItems, setToDoItems] = useState(initToDoItems)
   const refsArray = useRef([])
 
+  useEffect(() => {
+    
+    let existingToDos = JSON.parse(localStorage.getItem("toDoItems"));
+    if (!existingToDos) return;
+    let existingToDosInit = existingToDos.map((todo)=> {
+      return new ToDo(todo.content, todo.completed)
+    })
+    setToDoItems(existingToDosInit)
+
+  },[])
+
   function toggleCompleted(indexToDo) {
 
     const _todo = [...toDoItems]
@@ -45,6 +56,8 @@ function App() {
 
     const _todo = [...toDoItems]
     _todo[indexToDo].content = event.target.value
+    
+    localStorage.setItem('toDoItems', JSON.stringify(_todo));
     setToDoItems(_todo)
   }
 
