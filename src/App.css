@@ -5,11 +5,12 @@
  width: 50px;
 } */
 
-input {
+input{
   color: green;
   font-family: 'Press Start 2P', cursive;
-  font-size: 5vh;
-margin-left: 20px;
+  font-size: calc(14px + (36 - 14) * ((100vw - 300px) / (1600 - 300)));
+  width:90%;
+  margin-left: 20px;
   background-color: black;
   border-top-style: hidden;
   border-right-style: hidden;
@@ -22,13 +23,13 @@ margin-left: 20px;
 
 input[type=checkbox] {
   position: absolute;
-  
-  margin-left: -10px;
+  width:0%;
+  margin-left: -20px;
   /* justify-self: center;
   align-self: center;
   align-content: center;
   justify-content: center; */
-  margin-top: 30px;
+  margin-top: 10px;
   /* height: 50px; */
   /* border: solid red; 
   border-width: 0 4px 4px 0;  */
