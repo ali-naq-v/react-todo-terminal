@@ -162,7 +162,8 @@ function App() {
         <li key={index}>
           {/* <label class="main"> */}
           <input className="checkbox" type="checkbox" onChange={(event) => toggleCompleted(index)} checked={todo.completed} hidden={todo.empty()}/>
-          <span className="geekmark"></span>          
+        
+                 
           {/* </label> */}
           <input className="inputbox"
           type="text" 
